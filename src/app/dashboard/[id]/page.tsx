@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AssessmentResult, RiskItem, Severity } from "@/types";
 import { ShieldAlert, ShieldCheck, AlertTriangle, Info, ChevronDown, ChevronUp } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 const SEVERITY_CONFIG: Record<Severity, { label: string; color: string; bg: string; icon: React.ReactNode }> = {
   critical: { label: "Critical", color: "text-red-600", bg: "bg-red-50 border-red-200", icon: <ShieldAlert size={14} /> },
@@ -104,8 +105,54 @@ export default function DashboardPage() {
   const [result, setResult] = useState<AssessmentResult | null>(null);
 
   useEffect(() => {
-    const stored = sessionStorage.getItem(`assessment-${id}`);
-    if (stored) setResult(JSON.parse(stored));
+    async function load() {
+      // Try sessionStorage first (instant, no extra request)
+      const stored = sessionStorage.getItem(`assessment-${id}`);
+      if (stored) {
+        setResult(JSON.parse(stored));
+        return;
+      }
+
+      // Fall back to Supabase (for shared/bookmarked URLs)
+      const { data: assessment } = await supabase
+        .from("assessments")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (!assessment) return;
+
+      const { data: risks } = await supabase
+        .from("risks")
+        .select("*")
+        .eq("assessment_id", id)
+        .order("score", { ascending: false });
+
+      if (!risks) return;
+
+      setResult({
+        id: assessment.id,
+        overallScore: assessment.overall_score,
+        summary: assessment.summary,
+        topActions: assessment.top_actions,
+        createdAt: assessment.created_at,
+        risks: risks.map((r) => ({
+          id: r.id,
+          risk: r.risk,
+          source: r.source,
+          severity: r.severity,
+          score: r.score,
+          likelihood: r.likelihood,
+          impact: r.impact,
+          exposure: r.exposure,
+          description: r.description,
+          businessImpact: r.business_impact,
+          mitigation: r.mitigation,
+        })),
+      });
+    }
+
+    load();
   }, [id]);
 
   if (!result) {
