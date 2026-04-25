@@ -10,9 +10,14 @@ export default function Navbar() {
           <ShieldAlert size={20} className="text-red-500" />
           CyberRisk AI
         </Link>
-        <Link href="/assess">
-          <Button size="sm">Run assessment</Button>
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link href="/case-study" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            Case study
+          </Link>
+          <Link href="/assess">
+            <Button size="sm">Run assessment</Button>
+          </Link>
+        </div>
       </div>
     </nav>
   );
