@@ -15,7 +15,7 @@ export default function Home() {
       </h1>
 
       <p className="text-muted-foreground text-lg max-w-md mb-10">
-        Tell us your tech stack. We'll map your vulnerabilities, score your risk, and give you a prioritised fix list — in seconds.
+        Tell us your tech stack. We'll map your vulnerabilities, score your risk, and give you a prioritised fix list in seconds.
       </p>
 
       <Link href="/assess">

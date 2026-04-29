@@ -29,10 +29,10 @@ export async function POST(req: NextRequest) {
   );
 
   const summary =
-    overallScore >= 80 ? "Critical risk posture — immediate action required."
-    : overallScore >= 60 ? "High risk posture — significant vulnerabilities detected."
-    : overallScore >= 30 ? "Moderate risk posture — some areas need attention."
-    : "Low risk posture — keep monitoring.";
+    overallScore >= 80 ? "Critical risk posture, immediate action required."
+    : overallScore >= 60 ? "High risk posture, significant vulnerabilities detected."
+    : overallScore >= 30 ? "Moderate risk posture, some areas need attention."
+    : "Low risk posture, keep monitoring.";
 
   const topActions = enriched
     .slice(0, 3)

@@ -175,7 +175,7 @@ export default function CaseStudyPage() {
 
       {/* Before risks */}
       <div className="mb-8">
-        <h2 className="text-lg font-semibold mb-1">Before — risks identified</h2>
+        <h2 className="text-lg font-semibold mb-1">Before: risks identified</h2>
         <p className="text-sm text-muted-foreground mb-4">6 risks including 1 critical, 3 high severity</p>
         <div className="space-y-2">
           {BEFORE_RISKS.map((r) => <RiskRow key={r.risk} {...r} />)}
@@ -184,7 +184,7 @@ export default function CaseStudyPage() {
 
       {/* After risks */}
       <div className="mb-12">
-        <h2 className="text-lg font-semibold mb-1">After — remaining risks</h2>
+        <h2 className="text-lg font-semibold mb-1">After: remaining risks</h2>
         <p className="text-sm text-muted-foreground mb-4">5 residual risks, all medium or low severity</p>
         <div className="space-y-2">
           {AFTER_RISKS.map((r) => <RiskRow key={r.risk} {...r} />)}
